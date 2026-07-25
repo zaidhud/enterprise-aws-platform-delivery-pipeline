@@ -59,3 +59,13 @@ variable "common_tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "private_db_subnet_cidrs" {
+  description = "CIDR blocks assigned to the isolated private database subnets."
+  type        = list(string)
+
+  validation {
+    condition     = length(var.private_db_subnet_cidrs) >= 2
+    error_message = "At least two private database subnet CIDR blocks must be supplied."
+  }
+}

@@ -53,3 +53,16 @@ output "availability_zones" {
   description = "Availability Zones used by the networking module."
   value       = var.availability_zones
 }
+
+output "private_db_subnet_ids" {
+  description = "IDs of the isolated private database subnets ordered by subnet index."
+  value = [
+    for index in sort(keys(aws_subnet.private_db)) :
+    aws_subnet.private_db[index].id
+  ]
+}
+
+output "private_db_route_table_id" {
+  description = "ID of the isolated private database route table."
+  value       = aws_route_table.private_db.id
+}

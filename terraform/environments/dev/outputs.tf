@@ -32,3 +32,13 @@ output "nat_gateway_public_ip" {
   description = "Public IP address of the development NAT Gateway."
   value       = module.networking.nat_gateway_public_ip
 }
+
+output "private_db_subnet_ids" {
+  description = "IDs of the development private database subnets."
+  value       = module.networking.private_db_subnet_ids
+}
+
+output "private_db_route_table_id" {
+  description = "ID of the development private database route table."
+  value       = module.networking.private_db_route_table_id
+}
