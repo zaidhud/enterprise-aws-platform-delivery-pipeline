@@ -1,0 +1,33 @@
+﻿# Automatically identify text files and normalise them in Git
+* text=auto
+
+# Cross-platform source and configuration files
+*.tf          text eol=lf
+*.tfvars      text eol=lf
+*.hcl         text eol=lf
+*.yml         text eol=lf
+*.yaml        text eol=lf
+*.sh          text eol=lf
+*.py          text eol=lf
+*.json        text eol=lf
+*.md          text eol=lf
+*.editorconfig text eol=lf
+.gitignore    text eol=lf
+.gitattributes text eol=lf
+
+# PowerShell scripts remain LF for cross-platform PowerShell
+*.ps1         text eol=lf
+
+# Windows-specific scripts
+*.bat         text eol=crlf
+*.cmd         text eol=crlf
+
+# Binary files must never undergo line-ending conversion
+*.png         binary
+*.jpg         binary
+*.jpeg        binary
+*.gif         binary
+*.ico         binary
+*.zip         binary
+*.gz          binary
+*.pdf         binary
