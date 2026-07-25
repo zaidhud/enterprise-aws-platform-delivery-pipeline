@@ -27,3 +27,17 @@ module "networking" {
   }
 }
 
+
+module "security" {
+  source = "../../modules/security"
+
+  project_name     = var.project_name
+  environment      = var.environment
+  vpc_id           = module.networking.vpc_id
+  application_port = var.application_port
+  database_port    = var.database_port
+
+  common_tags = {
+    Owner = "Platform Engineering"
+  }
+}

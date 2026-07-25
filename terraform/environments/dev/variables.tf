@@ -41,3 +41,15 @@ variable "private_db_subnet_cidrs" {
   description = "CIDR blocks assigned to development private database subnets."
   type        = list(string)
 }
+
+variable "application_port" {
+  description = "TCP port exposed by the development application."
+  type        = number
+  default     = 8080
+}
+
+variable "database_port" {
+  description = "TCP port exposed by the development PostgreSQL database."
+  type        = number
+  default     = 5432
+}

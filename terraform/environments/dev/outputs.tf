@@ -42,3 +42,18 @@ output "private_db_route_table_id" {
   description = "ID of the development private database route table."
   value       = module.networking.private_db_route_table_id
 }
+
+output "alb_security_group_id" {
+  description = "ID of the development ALB security group."
+  value       = module.security.alb_security_group_id
+}
+
+output "application_security_group_id" {
+  description = "ID of the development application security group."
+  value       = module.security.application_security_group_id
+}
+
+output "database_security_group_id" {
+  description = "ID of the development database security group."
+  value       = module.security.database_security_group_id
+}
