@@ -1,4 +1,4 @@
-﻿---
+---
 - name: Confirm database client role execution
   ansible.builtin.debug:
     msg: "Database client role is running on {{ inventory_hostname }}"

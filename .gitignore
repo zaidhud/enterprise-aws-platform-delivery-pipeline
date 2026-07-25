@@ -63,3 +63,5 @@ Thumbs.db
 *.log
 tmp/
 temp/
+
+.venv/

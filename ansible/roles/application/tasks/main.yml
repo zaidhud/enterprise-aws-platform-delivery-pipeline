@@ -1,4 +1,4 @@
-﻿---
+---
 - name: Confirm application role execution
   ansible.builtin.debug:
     msg: "Application role is running on {{ inventory_hostname }}"

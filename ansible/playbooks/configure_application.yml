@@ -1,4 +1,4 @@
-﻿---
+---
 - name: Configure enterprise application instances
   hosts: tier_application
   become: true
