@@ -57,3 +57,23 @@ output "database_security_group_id" {
   description = "ID of the development database security group."
   value       = module.security.database_security_group_id
 }
+
+output "application_role_name" {
+  description = "Name of the development application IAM role."
+  value       = module.iam.application_role_name
+}
+
+output "application_role_arn" {
+  description = "ARN of the development application IAM role."
+  value       = module.iam.application_role_arn
+}
+
+output "application_instance_profile_name" {
+  description = "Name of the development application EC2 instance profile."
+  value       = module.iam.application_instance_profile_name
+}
+
+output "application_instance_profile_arn" {
+  description = "ARN of the development application EC2 instance profile."
+  value       = module.iam.application_instance_profile_arn
+}
