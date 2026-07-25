@@ -77,3 +77,54 @@ output "application_instance_profile_arn" {
   description = "ARN of the development application EC2 instance profile."
   value       = module.iam.application_instance_profile_arn
 }
+
+output "launch_template_id" {
+  value = module.compute.launch_template_id
+}
+
+output "launch_template_name" {
+  value = module.compute.launch_template_name
+}
+
+output "autoscaling_group_name" {
+  value = module.compute.autoscaling_group_name
+}
+
+output "autoscaling_group_arn" {
+  value = module.compute.autoscaling_group_arn
+}
+
+output "amazon_linux_2023_ami_id" {
+  value       = module.compute.amazon_linux_2023_ami_id
+  sensitive   = true
+  description = "Amazon Linux 2023 AMI selected by the compute module."
+}
+output "load_balancer_dns_name" {
+  description = "Public DNS name of the development Application Load Balancer."
+  value       = module.load_balancer.load_balancer_dns_name
+}
+
+output "load_balancer_arn" {
+  description = "ARN of the development Application Load Balancer."
+  value       = module.load_balancer.load_balancer_arn
+}
+
+output "load_balancer_zone_id" {
+  description = "Canonical hosted-zone ID of the development load balancer."
+  value       = module.load_balancer.load_balancer_zone_id
+}
+
+output "target_group_arn" {
+  description = "ARN of the development application target group."
+  value       = module.load_balancer.target_group_arn
+}
+
+output "target_group_name" {
+  description = "Name of the development application target group."
+  value       = module.load_balancer.target_group_name
+}
+
+output "http_listener_arn" {
+  description = "ARN of the development HTTP listener."
+  value       = module.load_balancer.http_listener_arn
+}
