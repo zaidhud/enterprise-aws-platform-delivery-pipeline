@@ -1,0 +1,15 @@
+﻿---
+aws_region: eu-west-2
+
+project_name: eapdp
+environment_name: dev
+
+application_user: eapdp
+application_group: eapdp
+application_directory: /opt/eapdp
+application_port: 8080
+
+database_name: platformdb
+database_port: 5432
+
+managed_by: Ansible

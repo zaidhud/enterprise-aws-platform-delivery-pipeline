@@ -86,3 +86,49 @@ module "load_balancer" {
     Owner = "Platform Engineering"
   }
 }
+
+module "database" {
+  source = "../../modules/database"
+
+  project_name               = var.project_name
+  environment                = var.environment
+  private_db_subnet_ids      = module.networking.private_db_subnet_ids
+  database_security_group_id = module.security.database_security_group_id
+
+  database_name   = "platformdb"
+  master_username = "platformadmin"
+
+  engine_version          = "16"
+  instance_class          = "db.t4g.micro"
+  allocated_storage       = 20
+  max_allocated_storage   = 100
+  storage_type            = "gp3"
+  storage_encrypted       = true
+  multi_az                = false
+  backup_retention_period = 1
+  deletion_protection     = false
+  skip_final_snapshot     = true
+  apply_immediately       = false
+
+  performance_insights_enabled = true
+  monitoring_interval          = 0
+
+  tags = {
+    CostCentre = "Platform Engineering"
+  }
+}
+
+module "ansible_support" {
+  source = "../../modules/ansible-support"
+
+  project_name          = var.project_name
+  environment           = var.environment
+  application_role_name = module.iam.application_role_name
+  database_secret_arn   = module.database.database_credentials_secret_arn
+
+  transfer_object_expiration_days = 1
+
+  tags = {
+    CostCentre = "Platform Engineering"
+  }
+}

@@ -1,0 +1,32 @@
+﻿---
+plugin: amazon.aws.aws_ec2
+
+regions:
+  - eu-west-2
+
+filters:
+  instance-state-name: running
+  tag:Project: eapdp
+  tag:Environment: dev
+  tag:Tier: application
+
+hostnames:
+  - instance-id
+
+compose:
+  ansible_host: instance_id
+  ansible_connection: '"amazon.aws.aws_ssm"'
+  ansible_aws_ssm_region: placement.region
+  ansible_aws_ssm_bucket_name: '"eapdp-dev-ansible-ssm-transfer"'
+
+keyed_groups:
+  - key: tags.Environment
+    prefix: environment
+
+  - key: tags.Tier
+    prefix: tier
+
+  - key: tags.Component
+    prefix: component
+
+strict: false

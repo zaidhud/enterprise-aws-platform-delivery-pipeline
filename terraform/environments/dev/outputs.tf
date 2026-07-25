@@ -128,3 +128,43 @@ output "http_listener_arn" {
   description = "ARN of the development HTTP listener."
   value       = module.load_balancer.http_listener_arn
 }
+
+output "database_instance_id" {
+  description = "RDS PostgreSQL instance identifier."
+  value       = module.database.database_instance_id
+}
+
+output "database_endpoint" {
+  description = "RDS PostgreSQL endpoint."
+  value       = module.database.database_endpoint
+}
+
+output "database_address" {
+  description = "RDS PostgreSQL hostname."
+  value       = module.database.database_address
+}
+
+output "database_port" {
+  description = "RDS PostgreSQL port."
+  value       = module.database.database_port
+}
+
+output "database_name" {
+  description = "RDS PostgreSQL database name."
+  value       = module.database.database_name
+}
+
+output "database_credentials_secret_arn" {
+  description = "Secrets Manager ARN containing database credentials."
+  value       = module.database.database_credentials_secret_arn
+}
+
+output "ansible_transfer_bucket_name" {
+  description = "S3 bucket used by Ansible for temporary SSM file transfers."
+  value       = module.ansible_support.transfer_bucket_name
+}
+
+output "ansible_transfer_bucket_arn" {
+  description = "ARN of the Ansible SSM transfer bucket."
+  value       = module.ansible_support.transfer_bucket_arn
+}
