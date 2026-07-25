@@ -1,4 +1,71 @@
 ---
-- name: Confirm common role execution
-  ansible.builtin.debug:
-    msg: "Common role is running on {{ inventory_hostname }}"
+- name: Validate supported operating system
+  ansible.builtin.assert:
+    that:
+      - ansible_os_family in ["RedHat", "Debian"]
+    fail_msg: >-
+      Unsupported operating system family: {{ ansible_os_family }}.
+      This role currently supports Red Hat and Debian-based systems.
+    success_msg: >-
+      Supported operating system detected: {{ ansible_distribution }}
+      {{ ansible_distribution_version }}.
+
+- name: Configure system timezone
+  community.general.timezone:
+    name: "{{ common_timezone }}"
+
+- name: Install baseline operating system packages
+  ansible.builtin.package:
+    name: "{{ common_packages }}"
+    state: present
+
+- name: Create application group
+  ansible.builtin.group:
+    name: "{{ application_group }}"
+    system: true
+    state: present
+
+- name: Create application service account
+  ansible.builtin.user:
+    name: "{{ application_user }}"
+    group: "{{ application_group }}"
+    home: "{{ application_home }}"
+    shell: /sbin/nologin
+    system: true
+    create_home: false
+    state: present
+
+- name: Create application directories
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ application_user }}"
+    group: "{{ application_group }}"
+    mode: "{{ item.mode }}"
+  loop: "{{ application_directories }}"
+  loop_control:
+    label: "{{ item.path }}"
+
+- name: Deploy managed login banner
+  ansible.builtin.template:
+    src: motd.j2
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Create platform metadata directory
+  ansible.builtin.file:
+    path: /etc/eapdp
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Deploy platform metadata
+  ansible.builtin.template:
+    src: platform-metadata.j2
+    dest: /etc/eapdp/platform.conf
+    owner: root
+    group: root
+    mode: "0644"

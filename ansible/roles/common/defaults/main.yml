@@ -1,0 +1,36 @@
+---
+common_timezone: UTC
+
+common_packages:
+  - git
+  - jq
+  - tar
+  - unzip
+  - wget
+
+application_user: eapdp
+application_group: eapdp
+application_home: /opt/eapdp
+
+application_directories:
+  - path: /opt/eapdp
+    mode: "0755"
+
+  - path: /opt/eapdp/application
+    mode: "0755"
+
+  - path: /opt/eapdp/config
+    mode: "0750"
+
+  - path: /opt/eapdp/logs
+    mode: "0750"
+
+  - path: /opt/eapdp/releases
+    mode: "0755"
+
+  - path: /opt/eapdp/shared
+    mode: "0750"
+
+platform_environment: dev
+platform_project: eapdp
+platform_managed_by: Ansible
