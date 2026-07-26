@@ -10,13 +10,13 @@ locals {
   name_prefix = "${var.project_name}-${var.environment}"
 
   github_subject = format(
-  "repo:%s@%s/%s@%s:ref:refs/heads/%s",
-  split("/", var.github_repository)[0],
-  var.github_owner_id,
-  split("/", var.github_repository)[1],
-  var.github_repository_id,
-  var.github_branch
-)
+    "repo:%s@%s/%s@%s:ref:refs/heads/%s",
+    split("/", var.github_repository)[0],
+    var.github_owner_id,
+    split("/", var.github_repository)[1],
+    var.github_repository_id,
+    var.github_branch
+  )
 
   common_tags = merge(
     {
