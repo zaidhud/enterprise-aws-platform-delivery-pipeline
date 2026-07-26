@@ -13,6 +13,16 @@ variable "github_repository" {
   type        = string
 }
 
+variable "github_owner_id" {
+  description = "Immutable GitHub account ID of the repository owner."
+  type        = string
+}
+
+variable "github_repository_id" {
+  description = "Immutable GitHub repository ID."
+  type        = string
+}
+
 variable "github_branch" {
   description = "GitHub branch allowed to assume the deployment role."
   type        = string

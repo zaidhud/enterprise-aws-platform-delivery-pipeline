@@ -144,8 +144,10 @@ module "cicd" {
   environment  = var.environment
   aws_region   = var.aws_region
 
-  github_repository = "zaidhud/enterprise-aws-platform-delivery-pipeline"
-  github_branch     = "main"
+  github_repository    = "zaidhud/enterprise-aws-platform-delivery-pipeline"
+  github_owner_id      = "68108942"
+  github_repository_id = "1312192204"
+  github_branch        = "main"
 
   terraform_state_bucket_name = "eapdp-874456855495-eu-west-2-tfstate"
   terraform_state_key         = "environments/dev/terraform.tfstate"
