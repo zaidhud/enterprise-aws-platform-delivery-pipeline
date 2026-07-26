@@ -150,6 +150,7 @@ data "aws_iam_policy_document" "github_actions_permissions" {
       "rds:Describe*",
       "rds:ListTagsForResource",
       "s3:GetAccelerateConfiguration",
+      "s3:GetReplicationConfiguration",
       "s3:GetBucket*",
       "s3:GetEncryptionConfiguration",
       "s3:GetLifecycleConfiguration",
