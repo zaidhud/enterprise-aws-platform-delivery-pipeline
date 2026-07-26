@@ -190,6 +190,9 @@ jobs:
             -m ping
 
       - name: Run rolling application deployment
+        env:
+          ANSIBLE_CONFIG: ${{ github.workspace }}/ansible/ansible.cfg
+          ANSIBLE_ROLES_PATH: ${{ github.workspace }}/ansible/roles
         run: |
           ansible-playbook \
             -i "${ANSIBLE_INVENTORY}" \
