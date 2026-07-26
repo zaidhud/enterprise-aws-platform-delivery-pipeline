@@ -1,4 +1,4 @@
-﻿output "database_instance_id" {
+output "database_instance_id" {
   description = "RDS database instance identifier."
   value       = aws_db_instance.application.id
 }

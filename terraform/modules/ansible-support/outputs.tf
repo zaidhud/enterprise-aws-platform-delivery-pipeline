@@ -1,4 +1,4 @@
-﻿output "transfer_bucket_name" {
+output "transfer_bucket_name" {
   description = "Name of the S3 bucket used for Ansible SSM file transfers."
   value       = aws_s3_bucket.ansible_transfer.id
 }

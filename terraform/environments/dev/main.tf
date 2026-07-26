@@ -63,6 +63,10 @@ module "compute" {
   application_security_group_id = module.security.application_security_group_id
   instance_profile_name         = module.iam.application_instance_profile_name
 
+  minimum_capacity = 2
+  desired_capacity = 4
+  maximum_capacity = 4
+
   common_tags = {
     Owner = "Platform Engineering"
   }
@@ -130,5 +134,26 @@ module "ansible_support" {
 
   tags = {
     CostCentre = "Platform Engineering"
+  }
+}
+
+module "cicd" {
+  source = "../../modules/cicd"
+
+  project_name = var.project_name
+  environment  = var.environment
+  aws_region   = var.aws_region
+
+  github_repository = "zaidhud/enterprise-aws-platform-delivery-pipeline"
+  github_branch     = "main"
+
+  terraform_state_bucket_name = "eapdp-874456855495-eu-west-2-tfstate"
+  terraform_state_key         = "environments/dev/terraform.tfstate"
+
+  ansible_transfer_bucket_name = module.ansible_support.transfer_bucket_name
+
+  tags = {
+    CostCentre = "Platform Engineering"
+    Purpose    = "GitHub Actions delivery pipeline"
   }
 }

@@ -168,3 +168,18 @@ output "ansible_transfer_bucket_arn" {
   description = "ARN of the Ansible SSM transfer bucket."
   value       = module.ansible_support.transfer_bucket_arn
 }
+
+output "github_actions_role_name" {
+  description = "Name of the IAM role assumed by GitHub Actions."
+  value       = module.cicd.github_actions_role_name
+}
+
+output "github_actions_role_arn" {
+  description = "ARN of the IAM role assumed by GitHub Actions."
+  value       = module.cicd.github_actions_role_arn
+}
+
+output "github_oidc_subject" {
+  description = "GitHub repository and branch trusted by the OIDC role."
+  value       = module.cicd.github_oidc_subject
+}
