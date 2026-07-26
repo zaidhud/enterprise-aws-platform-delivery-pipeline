@@ -1,4 +1,119 @@
 ---
-- name: Confirm application role execution
+- name: Validate required application variables
+  ansible.builtin.assert:
+    that:
+      - application_name | length > 0
+      - application_version | length > 0
+      - application_user | length > 0
+      - application_group | length > 0
+      - application_port | int > 0
+    fail_msg: Required application variables are missing or invalid
+    success_msg: Application deployment variables are valid
+
+- name: Ensure Python is installed
+  ansible.builtin.package:
+    name: "{{ application_python_package }}"
+    state: present
+
+- name: Stop and disable temporary bootstrap application
+  ansible.builtin.systemd:
+    name: eapdp-app.service
+    state: stopped
+    enabled: false
+  failed_when: false
+  when: not ansible_check_mode
+
+- name: Remove temporary bootstrap systemd service
+  ansible.builtin.file:
+    path: /etc/systemd/system/eapdp-app.service
+    state: absent
+  notify: Reload systemd
+
+
+- name: Create application release directory
+  ansible.builtin.file:
+    path: "{{ application_release_directory }}"
+    state: directory
+    owner: "{{ application_user }}"
+    group: "{{ application_group }}"
+    mode: "0755"
+
+- name: Deploy application artifact
+  ansible.builtin.copy:
+    src: "{{ application_entrypoint }}"
+    dest: "{{ application_release_directory }}/{{ application_entrypoint }}"
+    owner: "{{ application_user }}"
+    group: "{{ application_group }}"
+    mode: "0755"
+  notify: Restart application service
+
+- name: Deploy application environment configuration
+  ansible.builtin.template:
+    src: application.env.j2
+    dest: "{{ application_config_directory }}/application.env"
+    owner: "{{ application_user }}"
+    group: "{{ application_group }}"
+    mode: "0640"
+  notify: Restart application service
+
+- name: Update current application release symlink
+  ansible.builtin.file:
+    src: "{{ application_release_directory }}"
+    dest: "{{ application_current_link }}"
+    state: link
+    owner: "{{ application_user }}"
+    group: "{{ application_group }}"
+    force: true
+  notify: Restart application service
+
+- name: Deploy systemd service unit
+  ansible.builtin.template:
+    src: eapdp.service.j2
+    dest: "/etc/systemd/system/{{ application_service_name }}.service"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart application service
+
+- name: Enable and start application service
+  ansible.builtin.systemd:
+    name: "{{ application_service_name }}"
+    enabled: true
+    state: started
+    daemon_reload: true
+  when: not ansible_check_mode
+
+- name: Apply application deployment handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Wait for application port
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: "{{ application_port }}"
+    delay: 1
+    timeout: 30
+  when: not ansible_check_mode
+
+- name: Verify application health endpoint
+  ansible.builtin.uri:
+    url: "{{ application_health_url }}"
+    method: GET
+    status_code: 200
+    return_content: true
+  register: application_health_response
+  retries: "{{ application_health_retries }}"
+  delay: "{{ application_health_delay }}"
+  until:
+    - application_health_response.status == 200
+    - application_health_response.json.status == "healthy"
+  when: not ansible_check_mode
+
+- name: Display application health result
   ansible.builtin.debug:
-    msg: "Application role is running on {{ inventory_hostname }}"
+    msg:
+      - "Application: {{ application_health_response.json.application }}"
+      - "Version: {{ application_health_response.json.version }}"
+      - "Environment: {{ application_health_response.json.environment }}"
+      - "Hostname: {{ application_health_response.json.hostname }}"
+      - "Status: {{ application_health_response.json.status }}"
+  when: not ansible_check_mode

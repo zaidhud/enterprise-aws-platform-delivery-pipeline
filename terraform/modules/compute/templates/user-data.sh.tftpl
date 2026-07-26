@@ -6,43 +6,10 @@ dnf update -y
 systemctl enable amazon-ssm-agent
 systemctl restart amazon-ssm-agent
 
-mkdir -p /opt/eapdp-app
+mkdir -p /opt/eapdp
+mkdir -p /opt/eapdp/releases
+mkdir -p /opt/eapdp/config
 
-cat > /opt/eapdp-app/index.html <<EOF
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EAPDP Platform</title>
-</head>
-<body>
-  <h1>Enterprise AWS Platform Delivery Pipeline</h1>
-  <p>Environment: ${environment}</p>
-  <p>Provisioned by Terraform.</p>
-  <p>Application port: ${application_port}</p>
-</body>
-</html>
-EOF
-
-cat > /etc/systemd/system/eapdp-app.service <<EOF
-[Unit]
-Description=EAPDP bootstrap application
-After=network-online.target
-Wants=network-online.target
-
-[Service]
-Type=simple
-User=nobody
-WorkingDirectory=/opt/eapdp-app
-ExecStart=/usr/bin/python3 -m http.server ${application_port} --bind 0.0.0.0
-Restart=always
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-systemctl daemon-reload
-systemctl enable eapdp-app
-systemctl start eapdp-app
+echo "EC2 bootstrap completed successfully" > /var/log/eapdp-bootstrap.log
+echo "Environment: ${environment}" >> /var/log/eapdp-bootstrap.log
+echo "Application deployment is managed by Ansible" >> /var/log/eapdp-bootstrap.log

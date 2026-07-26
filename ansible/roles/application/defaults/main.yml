@@ -1,0 +1,30 @@
+---
+application_name: eapdp
+application_version: "1.0.0"
+
+application_user: eapdp
+application_group: eapdp
+
+application_home: /opt/eapdp
+application_release_root: /opt/eapdp/releases
+application_release_directory: "/opt/eapdp/releases/{{ application_version }}"
+application_current_link: /opt/eapdp/current
+application_shared_directory: /opt/eapdp/shared
+application_config_directory: /opt/eapdp/config
+application_log_directory: /opt/eapdp/logs
+
+application_bind_address: 0.0.0.0
+application_port: 8080
+
+application_service_name: eapdp
+application_service_description: Enterprise AWS Platform Delivery Pipeline Application
+
+application_environment: dev
+application_health_endpoint: /health
+application_health_url: "http://127.0.0.1:{{ application_port }}{{ application_health_endpoint }}"
+
+application_health_retries: 10
+application_health_delay: 3
+
+application_python_package: python3
+application_entrypoint: app.py

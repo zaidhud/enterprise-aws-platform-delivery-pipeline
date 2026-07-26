@@ -1,18 +1,18 @@
 ---
-- name: Configure enterprise application instances
+- name: Configure application server baseline
   hosts: tier_application
   become: true
   gather_facts: true
+  serial: 1
+  max_fail_percentage: 0
 
   roles:
     - role: common
       tags:
         - common
-
-    - role: database_client
-      tags:
-        - database
+        - baseline
 
     - role: application
       tags:
         - application
+        - deployment

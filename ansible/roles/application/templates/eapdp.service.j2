@@ -1,0 +1,24 @@
+[Unit]
+Description={{ application_service_description }}
+After=network.target
+
+[Service]
+Type=simple
+
+User={{ application_user }}
+Group={{ application_group }}
+
+WorkingDirectory={{ application_current_link }}
+
+EnvironmentFile={{ application_config_directory }}/application.env
+
+ExecStart=/usr/bin/python3 {{ application_current_link }}/{{ application_entrypoint }}
+
+Restart=always
+RestartSec=5
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
