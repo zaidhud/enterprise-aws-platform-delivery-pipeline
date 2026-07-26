@@ -104,6 +104,7 @@ jobs:
         working-directory: ${{ env.TERRAFORM_WORKING_DIRECTORY }}
         run: |
           terraform plan \
+            -var-file="dev.tfvars" \
             -input=false \
             -no-color \
             -out=github-actions.tfplan

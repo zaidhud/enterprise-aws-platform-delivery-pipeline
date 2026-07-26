@@ -10,6 +10,9 @@
 *.tfvars
 *.tfvars.json
 
+# Allow committed environment configuration
+!terraform/environments/dev/dev.tfvars
+
 # Allow example variable files
 !*.tfvars.example
 
